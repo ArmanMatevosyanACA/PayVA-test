@@ -9,7 +9,7 @@ class App extends Component {
         return (
             <Layout>
                 <Switch>
-                    <Route exact path={'./Home'} component={MainPage}/>
+                    <Route exact path={'/'} component={MainPage}/>
                     <Route/>
                 </Switch>
             </Layout>

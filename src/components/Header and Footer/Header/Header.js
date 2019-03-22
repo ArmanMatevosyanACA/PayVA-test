@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import AppBar from "@material-ui/core/AppBar";
-import {Toolbar} from "@material-ui/core";
+import Toolbar from "@material-ui/core/Toolbar";
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Modal from "../../Modal/Modal";
 import Login from '../../Login and Register/Login/Login';
 import Register from "../../Login and Register/Register/Register";
+import './Header.css';
+import logo from '../../../images/logo.jpg';
 
 class Header extends Component {
 
@@ -58,22 +60,27 @@ class Header extends Component {
                     <Modal clicked={this.closeModal}>
                         {this.state.modalContent}
                     </Modal> : null}
-                <AppBar
-                    position='fixed'
-                    style={{
-                        backgroundColor: '#999999',
-                        padding: '20px 50px',
-                        borderBottom: '2px solid black'
-                    }}
-                >
-                    <Toolbar style={{display: 'flex'}}>
-                        <Link style={{flexGrow: '1'}} to={'#'}>Logo</Link>
-                        <div>
-                            <Button variant="contained" color="primary" onClick={this.login}>Sign In</Button>
-                            <Button variant="contained" color="primary" onClick={this.registeration}>Sign Up</Button>
-                        </div>
-                    </Toolbar>
+
+                <AppBar style={{
+                    position: 'inherit',
+                    backgroundColor: '#123456'
+                }}>
+                    <div className={'wrapper'}>
+
+                        <Toolbar className={'toolbar'}>
+                            <Link style={{flexGrow: '1'}} to={'/'}>
+                                <img className={'logo'} src={logo} alt=""/>
+                            </Link>
+                            <div>
+                                <Button variant="contained" color="primary" onClick={this.login}>Sign In</Button>
+                                <Button variant="contained" color="primary" onClick={this.registeration}>Sign
+                                    Up</Button>
+                            </div>
+                        </Toolbar>
+                    </div>
+
                 </AppBar>
+
             </>
         );
     }

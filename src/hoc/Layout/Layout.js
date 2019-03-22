@@ -6,11 +6,11 @@ import Footer from "../../components/Header and Footer/Footer/Footer";
 
 const Layout = (props) => {
     return (
-        <div>
+        <>
             <Header/>
             {props.children}
             <Footer/>
-        </div>
+        </>
     );
 };
 

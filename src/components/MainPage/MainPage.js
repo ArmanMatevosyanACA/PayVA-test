@@ -2,8 +2,8 @@ import React from 'react';
 
 const MainPage = () => {
     return (
-        <div>
-            Mainpage
+        <div className={'wrapper'}>
+            <div style={{minHeight: '350px'}}>Main page</div>
         </div>
     );
 };
