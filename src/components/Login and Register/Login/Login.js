@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Button} from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
+
 
 class Login extends React.Component {
 
@@ -42,6 +43,7 @@ class Login extends React.Component {
                             placeholder='example@example.com'
                             value={email}
                             onChange={this.onChange}
+                            className='input-of-form'
                         />
                     </Form.Field>
                     <Form.Field>
@@ -53,6 +55,7 @@ class Login extends React.Component {
                             placeholder='please enter your password'
                             value={password}
                             onChange={this.onChange}
+                            className='input-of-form'
                         />
                     </Form.Field>
 

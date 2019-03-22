@@ -1,7 +1,8 @@
 .Modal {
     position: fixed;
     z-index: 1102;
-    background-color: #949494;
+    background-color: #123456;
+    color: white;
     width: 70%;
     border:1px solid #ccc;
     box-shadow: 2px 2px 2px black;
@@ -11,6 +12,12 @@
     box-sizing:  border-box;
     animation-name: modalFade;
     animation-duration: .9s;
+}
+.ui.form .field>label {
+    color: white !important;
+}
+.ui.primary.button {
+    background-color: #3f51b5 !important;
 }
 
 @keyframes modalFade {
