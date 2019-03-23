@@ -1,87 +1,111 @@
 import React from 'react';
-import {Form, Button} from 'semantic-ui-react';
+import {Button, Form} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-import * as firebase from 'firebase';
+import {fireData} from "../../../firebase";
 
 
 class Register extends React.Component {
-        constructor(){
-            super();
-        this.state = {
+
+    state = {
         email: '',
+        name: '',
+        surname: '',
         password: '',
-        errorMessage: "",
-        uid: "",
+        cpassword: ''
     };
-    this.createUser = this.createUser.bind(this);
-    this.getDatas = this.getDatas.bind(this);       
-}
-        getDatas(event) {
-            this.setState({
-                [event.target.name]: event.target.value
-            });
-        }
-    // onChange = e => {
-    //     this.setState({
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
 
-    componentDidMount() {
-        if (localStorage.getItem("user")) {
-            this.setState({
-                uid: localStorage.getItem("user")
-            })
-        } else if (sessionStorage.getItem("user")) {
-            this.setState({
-                uid: sessionStorage.getItem("user")
-            })
-        }
+    onSubmit = (e) => {
+        e.preventDefault();
 
-        firebase.auth().onAuthStateChanged(() => {
-            const user = firebase.auth().currentUser;
+        let stateClone = {...this.state};
+        let dataToSubmit={};
 
-            if (user) {
-                firebase.database().ref('users/' + user.uid + "/userInfo").on("value", (snapshot) => {
-                    })
-                }
-            })
-        }
 
-    createUser(datas) {
-        return () => {
-            const user = firebase.auth();
-
-            let userData = {
-                name: datas.name,
-                surname: datas.surname,
-                date: datas.date,
+        for(let key in stateClone){
+            if (key!=='cpassword') {
+                dataToSubmit[key] = stateClone[key]
             }
-
-            datas.name.length >= 3 &&
-                datas.surname.length >= 3 &&
-                datas.date &&
-                datas.password === datas.confirmPassword ?
-                user.createUserWithEmailAndPassword(datas.email, datas.password)
-                    .then(res => {
-                        firebase.database().ref('users/' + res.user.uid + "/userInfo").set(userData);
-                        this.signIn(datas)();
-                        user.currentUser.sendEmailVerification();
-                    })
-                    .catch(err => {
-                        this.setState({
-                            errorMessage: err.message
-                        });
-                    }) :
-                this.setState({
-                    errorMessage: "No enough information"
-                });
         }
-    }
+
+        console.table([{
+            email:dataToSubmit.email,
+            name:dataToSubmit.name,
+            surname:dataToSubmit.surname,
+            password: dataToSubmit.password
+        }]);
+
+
+        fireData.ref('users').push(
+            {
+                ...dataToSubmit
+            },
+        );
+
+        this.props.clicked();
+
+    };
+
+    onChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    // componentDidMount() {
+    //     if (localStorage.getItem("user")) {
+    //         this.setState({
+    //             uid: localStorage.getItem("user")
+    //         })
+    //     } else if (sessionStorage.getItem("user")) {
+    //         this.setState({
+    //             uid: sessionStorage.getItem("user")
+    //         })
+    //     }
+    //
+    //     firebase.auth().onAuthStateChanged(() => {
+    //         const user = firebase.auth().currentUser;
+    //
+    //         if (user) {
+    //             firebase.database().ref('users/' + user.uid + "/userInfo").on("value", (snapshot) => {
+    //             })
+    //         }
+    //     })
+    // }
+    //
+    // createUser(datas) {
+    //     return () => {
+    //         const user = firebase.auth();
+    //
+    //         let userData = {
+    //             name: datas.name,
+    //             surname: datas.surname,
+    //             date: datas.date,
+    //         }
+    //
+    //         datas.name.length >= 3 &&
+    //         datas.surname.length >= 3 &&
+    //         datas.date &&
+    //         datas.password === datas.confirmPassword ?
+    //             user.createUserWithEmailAndPassword(datas.email, datas.password)
+    //                 .then(res => {
+    //                     firebase.database().ref(`users/${res.uid}`).set(userData);
+    //                     this.signIn(datas)();
+    //                     user.currentUser.sendEmailVerification();
+    //                 })
+    //                 .catch(err => {
+    //                     this.setState({
+    //                         errorMessage: err.message
+    //                     });
+    //                 }) :
+    //             this.setState({
+    //                 errorMessage: "No enough information"
+    //             });
+    //     }
+    // }
 
     render() {
 
-        const {email,name,surname, password,cpassword} = this.state;
+        const {email, name, surname, password, cpassword} = this.state;
 
         return (
             <div>
@@ -104,7 +128,7 @@ class Register extends React.Component {
                             name={'email'}
                             placeholder='example@example.com'
                             value={email}
-                            onChange={this.getDatas}
+                            onChange={this.onChange}
                         />
                     </Form.Field>
 
@@ -116,7 +140,7 @@ class Register extends React.Component {
                             name={'name'}
                             placeholder='please enter your name'
                             value={name}
-                            onChange={this.getDatas}
+                            onChange={this.onChange}
                         />
                     </Form.Field>
                     <Form.Field>
@@ -127,11 +151,9 @@ class Register extends React.Component {
                             name={'surname'}
                             placeholder='please enter your surname'
                             value={surname}
-                            onChange={this.getDatas}
+                            onChange={this.onChange}
                         />
                     </Form.Field>
-
-
                     <Form.Field>
                         <label htmlFor={'password'}>Password</label>
                         <input
@@ -140,7 +162,7 @@ class Register extends React.Component {
                             name={'password'}
                             placeholder='please enter your password'
                             value={password}
-                            onChange={this.getDatas}
+                            onChange={this.onChange}
                         />
                     </Form.Field>
                     <Form.Field>
@@ -151,11 +173,11 @@ class Register extends React.Component {
                             name={'cpassword'}
                             placeholder='please confirm your password'
                             value={cpassword}
-                            onChange={this.getDatas}
+                            onChange={this.onChange}
                         />
                     </Form.Field>
 
-                    <Button primary onClick={this.createUser(this.getDatas)}>Log in</Button>
+                    <Button primary>Log in</Button>
                     <Button primary onClick={this.props.canceled}>Cancel</Button>
 
                 </Form>
@@ -168,14 +190,4 @@ class Register extends React.Component {
 export default Register;
 
 
-//     onSubmit = () => {
-//         const errors = this.validate(this.state.data);
-//         this.setState({errors});
-//         if (Object.keys(errors).length === 0) {
-//             this.props.submit(this.state.data);
-//         }
-//     };
-//
-//         return (
-//             <Form onSubmit={this.onSubmit}>
-//
+

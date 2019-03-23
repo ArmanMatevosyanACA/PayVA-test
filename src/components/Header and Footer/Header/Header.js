@@ -42,14 +42,14 @@ class Header extends Component {
     login = () => {
         this.openModal();
         this.setState({
-            modalContent: <Login canceled={this.closeModal}/>
+            modalContent: <Login canceled={this.closeModal} clicked={this.closeModal}/>
         })
     };
 
     registeration = () => {
         this.openModal();
         this.setState({
-            modalContent: <Register canceled={this.closeModal}/>
+            modalContent: <Register canceled={this.closeModal} clicked={this.closeModal}/>
         })
     };
 

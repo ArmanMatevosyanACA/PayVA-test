@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Button} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
+import {auth} from '../../../firebase';
 
 
 class Login extends React.Component {
@@ -10,6 +11,20 @@ class Login extends React.Component {
         password: '',
     };
 
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        let dataToSubmit = {...this.state};
+
+        auth.signInWithEmailAndPassword(
+            dataToSubmit.password,
+            dataToSubmit.email,
+        ).then((a) => {
+            console.log('uraaa');
+        }).catch(error => console.log(error));
+
+        this.props.clicked();
+    };
 
     onChange = e => {
         this.setState({
@@ -73,14 +88,4 @@ class Login extends React.Component {
 export default Login;
 
 
-//     onSubmit = () => {
-//         const errors = this.validate(this.state.data);
-//         this.setState({errors});
-//         if (Object.keys(errors).length === 0) {
-//             this.props.submit(this.state.data);
-//         }
-//     };
-//
-//         return (
-//             <Form onSubmit={this.onSubmit}>
-//
+
