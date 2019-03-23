@@ -7,7 +7,7 @@ import Modal from "../../Modal/Modal";
 import Login from '../../Login and Register/Login/Login';
 import Register from "../../Login and Register/Register/Register";
 import './Header.css';
-import logo from '../../../images/logo.jpg';
+import logo from '../../../images/logo.png';
 
 class Header extends Component {
 
