@@ -14,11 +14,12 @@ class Login extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        let dataToSubmit = {...this.state};
+        let {email, password} = this.state;
+
 
         auth.signInWithEmailAndPassword(
-            dataToSubmit.password,
-            dataToSubmit.email,
+            email,
+            password
         ).then((a) => {
             console.log('uraaa');
         }).catch(error => console.log(error));
@@ -30,10 +31,10 @@ class Login extends React.Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
+
     };
 
     render() {
-
         const {email, password} = this.state;
 
         return (
@@ -53,8 +54,8 @@ class Login extends React.Component {
                         <label htmlFor={'email'}>Email</label>
                         <input
                             type="email"
-                            id={'email'}
-                            name={'email'}
+                            id='email'
+                            name='email'
                             placeholder='example@example.com'
                             value={email}
                             onChange={this.onChange}
@@ -65,8 +66,8 @@ class Login extends React.Component {
                         <label htmlFor={'password'}>Password</label>
                         <input
                             type="password"
-                            id={'password'}
-                            name={'password'}
+                            id='password'
+                            name='password'
                             placeholder='please enter your password'
                             value={password}
                             onChange={this.onChange}

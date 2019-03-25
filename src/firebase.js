@@ -18,16 +18,16 @@ firebase.initializeApp(config);
 const fireData = firebase.database();
 const auth = firebase.auth();
 
-// fireData.ref('users').on('value', (snapshot) => {
-//     const users = [];
-//     snapshot.forEach((child) => {
-//         users.push({
-//             uid: child.key,
-//             ...child.val(),
-//         })
-//     });
-//     console.log(users);
-// });
+fireData.ref('users').on('value', (snapshot) => {
+    const users = [];
+    snapshot.forEach((child) => {
+        users.push({
+            uid: child.key,
+            ...child.val(),
+        })
+    });
+    console.log(users);
+});
 
 
 

@@ -9,11 +9,14 @@ import Register from "../../Login and Register/Register/Register";
 import './Header.css';
 import logo from '../../../images/logo.png';
 
+import {auth} from '../../../firebase';
+
 class Header extends Component {
 
     state = {
         showModal: false,
         modalContent: null,
+        currentUser: null,
     };
 
 
@@ -32,7 +35,15 @@ class Header extends Component {
             if (e.keyCode === 27) {
                 this.closeModal()
             }
-        })
+        });
+
+
+        setTimeout(() => {
+            this.setState({
+                currentUser: auth.currentUser
+            })
+        }, 1000)
+
     }
 
     componentWillUnmount() {
@@ -71,11 +82,25 @@ class Header extends Component {
                             <Link style={{flexGrow: '1'}} to={'/'}>
                                 <img className={'logo'} src={logo} alt=""/>
                             </Link>
-                            <div>
-                                <Button variant="contained" color="primary" onClick={this.login}>Sign In</Button>
-                                <Button variant="contained" color="primary" onClick={this.registeration}>Sign
-                                    Up</Button>
-                            </div>
+
+                            {this.state.currentUser ?
+                                <div>
+                                    {this.state.currentUser.email}
+                                    <Button variant="contained" color="primary" onClick={() => {
+                                        auth.signOut();
+                                    }
+                                    }>Log out</Button>
+                                </div>
+
+                                :
+                                <div>
+
+                                    <Button variant="contained" color="primary" onClick={this.login}>Sign In</Button>
+                                    <Button variant="contained" color="primary" onClick={this.registeration}>Sign
+                                        Up</Button>
+                                </div>
+                            }
+
                         </Toolbar>
                     </div>
 

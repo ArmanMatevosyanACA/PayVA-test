@@ -5,6 +5,8 @@ import MainPage from "./MainPage/MainPage";
 
 
 class App extends Component {
+
+
     render() {
         return (
             <Layout>

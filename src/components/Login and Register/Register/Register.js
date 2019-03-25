@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-import {fireData} from "../../../firebase";
+import {auth, fireData} from "../../../firebase";
 
 
 class Register extends React.Component {
@@ -40,6 +40,13 @@ class Register extends React.Component {
                 ...dataToSubmit
             },
         );
+
+        const {  email, password } = this.state;
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(authUser => {
+                console.log(authUser);
+            });
 
         this.props.clicked();
 

@@ -13,6 +13,16 @@ import {auth} from '../src/firebase'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
+
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        console.log('logged in');
+    } else {
+        console.log('logged out');
+    }
+});
+
+
 ReactDom.render(
     <BrowserRouter>
         <Provider store={store}>
@@ -22,10 +32,5 @@ ReactDom.render(
     document.querySelector('#root')
 );
 
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        console.log('logged in');
-    } else {
-        console.log('logged out');
-    }
-});
+
+
