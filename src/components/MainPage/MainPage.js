@@ -6,7 +6,7 @@ import img from '../../images/logo.png';
 const MainPage = () => {
     return (
         <div className={'wrapper'}>
-            <div style={{minHeight: '350px'}} className={'wrapper'}>
+            <div style={{minHeight: '350px', marginTop: '95px'}} className={'wrapper'}>
 
                 <div className={'main_container'}>
                     <img src={img} alt="img"/>

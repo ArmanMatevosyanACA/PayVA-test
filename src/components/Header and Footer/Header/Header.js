@@ -73,7 +73,7 @@ class Header extends Component {
                     </Modal> : null}
 
                 <AppBar style={{
-                    position: 'inherit',
+                    position: 'fixed',
                     backgroundColor: '#123456'
                 }}>
                     <div className={'wrapper'}>
