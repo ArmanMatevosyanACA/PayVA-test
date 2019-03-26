@@ -18,3 +18,10 @@
     height: 100px;
     border-radius: 50px;
 }
+.logged_in button {
+    margin-left: 30px;
+}
+
+.logged_in {
+    font-size: 20px;
+}

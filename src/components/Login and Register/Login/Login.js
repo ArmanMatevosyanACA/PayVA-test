@@ -9,6 +9,7 @@ class Login extends React.Component {
     state = {
         email: '',
         password: '',
+        errorMessage: '',
     };
 
     onSubmit = (e) => {
@@ -22,10 +23,12 @@ class Login extends React.Component {
             password
         ).then((a) => {
             console.log('uraaa');
-        }).catch(error => console.log(error));
-
-        this.props.clicked();
-    };
+        }).catch(err => {
+            this.setState({
+                errorMessage: err.message
+            });
+        }) 
+    }
 
     onChange = e => {
         this.setState({
@@ -75,7 +78,14 @@ class Login extends React.Component {
                         />
                     </Form.Field>
 
-
+                     {
+                        this.state.errorMessage &&
+                        <h4 className="error-message" style={{
+                            fontSize: '14px',
+                            color: 'red',
+                            textAlign: 'center',
+                          }}>{this.state.errorMessage}</h4>
+                    }
                     <Button primary>Log in</Button>
                     <Button primary onClick={this.props.canceled}>Cancel</Button>
 

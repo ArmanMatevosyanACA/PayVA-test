@@ -84,9 +84,10 @@ class Header extends Component {
                             </Link>
 
                             {this.state.currentUser ?
-                                <div>
+                                <div className={'logged_in'}>
+                                    <Button variant="contained" color="primary" style={{marginRight: '200px'}}>Create the Project </Button>
                                     {this.state.currentUser.email}
-                                    <Button variant="contained" color="primary" onClick={() => {
+                                    <Button variant="contained" color="primary"  onClick={() => {
                                         auth.signOut();
                                     }
                                     }>Log out</Button>

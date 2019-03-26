@@ -11,7 +11,8 @@ class Register extends React.Component {
         name: '',
         surname: '',
         password: '',
-        cpassword: ''
+        cpassword: '',
+        errorMessage: '',
     };
 
     onSubmit = (e) => {
@@ -34,23 +35,36 @@ class Register extends React.Component {
             password: dataToSubmit.password
         }]);
 
+        // dataToSubmit.name.length >= 3 &&
+        // dataToSubmit.surname.length >= 3 &&
+        // dataToSubmit.email &&
+        // dataToSubmit.password === dataToSubmit.cpassword ?
 
+       
+    //     .catch(err => {
+    //         console.log(err);
+    //         this.setState({
+    //             errorMessage: err.message
+    //         });
+    //     }) :
+    //     this.setState({
+    //     errorMessage: "No enough information"
+    // });
+        const {  email, password } = this.state;
+        
+        
         fireData.ref('users').push(
             {
                 ...dataToSubmit
             },
-        );
-
-        const {  email, password } = this.state;
-
+        )
         auth.createUserWithEmailAndPassword(email, password)
             .then(authUser => {
                 console.log(authUser);
-            });
-
-        this.props.clicked();
-
-    };
+            })
+          
+        this.props.clicked()    
+    }
 
     onChange = e => {
         this.setState({
@@ -58,57 +72,6 @@ class Register extends React.Component {
         });
     };
 
-    // componentDidMount() {
-    //     if (localStorage.getItem("user")) {
-    //         this.setState({
-    //             uid: localStorage.getItem("user")
-    //         })
-    //     } else if (sessionStorage.getItem("user")) {
-    //         this.setState({
-    //             uid: sessionStorage.getItem("user")
-    //         })
-    //     }
-    //
-    //     firebase.auth().onAuthStateChanged(() => {
-    //         const user = firebase.auth().currentUser;
-    //
-    //         if (user) {
-    //             firebase.database().ref('users/' + user.uid + "/userInfo").on("value", (snapshot) => {
-    //             })
-    //         }
-    //     })
-    // }
-    //
-    // createUser(datas) {
-    //     return () => {
-    //         const user = firebase.auth();
-    //
-    //         let userData = {
-    //             name: datas.name,
-    //             surname: datas.surname,
-    //             date: datas.date,
-    //         }
-    //
-    //         datas.name.length >= 3 &&
-    //         datas.surname.length >= 3 &&
-    //         datas.date &&
-    //         datas.password === datas.confirmPassword ?
-    //             user.createUserWithEmailAndPassword(datas.email, datas.password)
-    //                 .then(res => {
-    //                     firebase.database().ref(`users/${res.uid}`).set(userData);
-    //                     this.signIn(datas)();
-    //                     user.currentUser.sendEmailVerification();
-    //                 })
-    //                 .catch(err => {
-    //                     this.setState({
-    //                         errorMessage: err.message
-    //                     });
-    //                 }) :
-    //             this.setState({
-    //                 errorMessage: "No enough information"
-    //             });
-    //     }
-    // }
 
     render() {
 
@@ -183,8 +146,11 @@ class Register extends React.Component {
                             onChange={this.onChange}
                         />
                     </Form.Field>
-
-                    <Button primary>Log in</Button>
+                    {/* {
+                        this.state.errorMessage &&
+                        <h4 className="error-message">{this.state.errorMessage}</h4>
+                    } */}
+                    <Button primary>Register</Button>
                     <Button primary onClick={this.props.canceled}>Cancel</Button>
 
                 </Form>
