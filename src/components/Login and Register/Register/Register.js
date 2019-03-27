@@ -2,10 +2,11 @@ import React from 'react';
 import {Button, Form} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import {auth, fireData} from "../../../firebase";
+import { connect } from 'react-redux';
+import { userLoggedIn } from '../../../actionsCreators/userAction';
 
 
 class Register extends React.Component {
-
     state = {
         email: '',
         name: '',
@@ -14,9 +15,6 @@ class Register extends React.Component {
         cpassword: '',
         errorMessage: '',
     };
-
-
-
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -29,9 +27,12 @@ class Register extends React.Component {
         auth.createUserWithEmailAndPassword(email, password)
             .then(authUser => {
                 fireData.ref('users/' + authUser.user.uid + "/userInfo").set(userData);
+                this.props.userLoggedIn(true);
+                localStorage.setItem('userloggedin', true);
             })
           
-        this.props.clicked()    
+        this.props.clicked();
+            
     }
     onChange = e => {
         this.setState({
@@ -42,7 +43,7 @@ class Register extends React.Component {
 
     render() {
 
-        const {email, name, surname, password, cpassword} = this.state;
+        const { email, name, surname, password, cpassword } = this.state;
 
         return (
             <div>
@@ -127,7 +128,4 @@ class Register extends React.Component {
     }
 }
 
-export default Register;
-
-
-
+export default connect(null, { userLoggedIn })(Register);

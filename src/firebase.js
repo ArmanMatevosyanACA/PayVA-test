@@ -29,10 +29,7 @@ fireData.ref('users').on('value', (snapshot) => {
             ...child.val(),
         })
     });
-    console.log(users);
 });
-
-
 
 
 export {

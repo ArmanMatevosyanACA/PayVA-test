@@ -1,31 +1,46 @@
 import React from 'react';
 import './MainPage.css'
-import {auth, fireData} from '../../firebase';
+import { auth, fireData } from '../../firebase';
 import img from '../../images/logo.png';
-
+import { connect } from 'react-redux';
+import { userLoggedIn } from '../../actionsCreators/userAction';
 
 class MainPage extends React.Component {
     state = {
-        items: null,
+        projects: null,
     }
     
-    // componentDidMount() {
-    //     const items = {}; 
-    //     let uid = auth.currentUser.uid;
-    //     const ref = fireData.ref('users/' + uid + "/items");
-    //     ref.limitToFirst(10).once('value').then(snapshot => {
-    //         const users = snapshot.val();
+    componentDidMount() {
+        if (localStorage.getItem('userloggedin')) {
+            this.props.userLoggedIn(true);
+        } else {
+            this.props.userLoggedIn(false);
+        }
+    }
 
-    //         for (let key in users) {
-    //             for (const itemKey in users[key].items) {
-    //                 items[itemKey] = users[key].items[itemKey];
-    //             }
-    //         }
-    //         this.setState({
-    //             items
-    //         })
-    //     })
-    // }
+    componentDidUpdate() {
+        // FAKE SERVER REQUEST RESPONSE IMMITATION
+        setTimeout(() => {
+                const projects = {};
+                
+                if (auth.currentUser) {
+                    let uid = auth.currentUser.uid;
+        
+                    fireData.ref(`users/${uid}/projects`).on('value', (snapshot) => {
+                        const projects = [];
+                        snapshot.forEach((child) => {
+                            projects.push(child.val());
+                        });
+                        
+                        if (!this.state.projects) {
+                            this.setState({ projects }, () => {
+                                console.log(this.state);
+                            });
+                        }
+                    });
+                }
+        }, 1000);
+    }
     
     render() {
         return (
@@ -63,17 +78,19 @@ class MainPage extends React.Component {
     }
 }
 
-export default MainPage;
+export default connect(store => ({
+    loggedIn: store.userReducer.loggedIn
+}), { userLoggedIn })(MainPage);
 
 
 
 {/* <div className={'wrapper'}>
 <div style={{minHeight: '350px', marginTop: '95px'}} className={'wrapper'}></div>
         {
-                Object.keys(this.state.items).map((key, index) => {
+                Object.keys(this.state.projects).map((key, index) => {
                     return (
                         <div key={index} className={'main_container'}>
-                                     <img src={this.state.items[key].image} alt="Loading..." />  */}
+                                     <img src={this.state.projects[key].image} alt="Loading..." />  */}
 
 
 
@@ -82,11 +99,11 @@ export default MainPage;
         //                             <img src={img} alt="img"/>
         //                         <div div className={'product_info'}>
                                     
-        //                                 <div >{this.state.items[key].name}</div>
-        //                                 <div >{this.state.items[key].name}</div>
-        //                                 <div >{this.state.items[key].description}</div>
+        //                                 <div >{this.state.projects[key].name}</div>
+        //                                 <div >{this.state.projects[key].name}</div>
+        //                                 <div >{this.state.projects[key].description}</div>
         //                         </div>
-        //                         <button onClick={this.addToCart(this.state.items[key])} className='buy-now-btn'>Buy Now</button>
+        //                         <button onClick={this.addToCart(this.state.projects[key])} className='buy-now-btn'>Buy Now</button>
                             
         //                 </div>
         //             )

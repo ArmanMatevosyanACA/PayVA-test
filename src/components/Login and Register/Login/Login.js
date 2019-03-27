@@ -2,6 +2,8 @@ import React from 'react';
 import {Form, Button} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import {auth} from '../../../firebase';
+import { connect } from 'react-redux';
+import { userLoggedIn } from '../../../actionsCreators/userAction';
 
 
 class Login extends React.Component {
@@ -22,12 +24,14 @@ class Login extends React.Component {
             email,
             password
         ).then((a) => {
-            console.log('uraaa');
+            this.props.userLoggedIn(true);
+            localStorage.setItem('userloggedin', true);
         }).catch(err => {
             this.setState({
                 errorMessage: err.message
             });
-        }) 
+         })
+        
     }
 
     onChange = e => {
@@ -96,7 +100,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
-
-
-
+export default connect(null, { userLoggedIn })(Login);

@@ -35,7 +35,6 @@ class CreateProject extends React.Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log(this.state)
     };
 
     addItems = (e) => {
@@ -45,11 +44,8 @@ class CreateProject extends React.Component {
             projectName: this.state.name,
             projectDescription: this.state.description,
         }
-        
-        console.log(projectData);
 
         let uid = auth.currentUser.uid;
-        console.log(uid);
         fireData.ref('users/' + uid + "/projects").push(projectData)
         .then( this.props.canceled);
     }

@@ -9,6 +9,8 @@ import Register from "../../Login and Register/Register/Register";
 import './Header.css';
 import CreateProject from './Create-Project/CreateProject';
 import logo from '../../../images/logo.png';
+import { connect } from 'react-redux';
+import { userLoggedIn } from '../../../actionsCreators/userAction';
 
 import {auth} from '../../../firebase';
 
@@ -32,19 +34,23 @@ class Header extends Component {
     };
 
     componentDidMount() {
+        const { userLoggedIn } = this.props;
         document.addEventListener('keyup', (e) => {
             if (e.keyCode === 27) {
                 this.closeModal()
             }
         });
+        
+        if (localStorage.getItem('userloggedin')) {
+            userLoggedIn(true);
+        }
+    }
 
-
+    componentDidUpdate() {
+        // FAKE SERVER REQUEST RESPONSE IMMITATION
         setTimeout(() => {
-            this.setState({
-                currentUser: auth.currentUser
-            })
-        }, 1000)
-
+            this.setState({ currentUser: auth.currentUser });
+        });
     }
 
     componentWillUnmount() {
@@ -71,10 +77,14 @@ class Header extends Component {
     };
 
     render() {
+        const { loggedIn, userLoggedIn } = this.props;
+        const { currentUser } = this.state;
+        const userFakeTokken = localStorage.getItem("userloggedin");
+
         return (
             <>
                 {this.state.showModal ?
-                    <Modal clicked={this.closeModal}>
+                    <Modal clicked={this.closeModal} >
                         {this.state.modalContent}
                     </Modal> : null}
 
@@ -89,23 +99,28 @@ class Header extends Component {
                                 <img className={'logo'} src={logo} alt=""/>
                             </Link>
 
-                            {this.state.currentUser ?
-                                <div className={'logged_in'}>
-                                    <Button variant="contained" color="primary" style={{marginRight: '200px'}} onClick={this.createproject}>Create the Project </Button>
-                                    {this.state.currentUser.email}
-                                    <Button variant="contained" color="primary"  onClick={() => {
-                                        auth.signOut();
-                                    }
-                                    }>Log out</Button>
-                                </div>
+                            {
+                                userFakeTokken ?
+                                    loggedIn && currentUser &&
+                                        <div className={'logged_in'}>
+                                            <Button variant="contained" color="primary" style={{marginRight: '200px'}} onClick={this.createproject}>Create the Project </Button>
+                                            {
+                                                currentUser &&
+                                                    currentUser.email
+                                            }
+                                            <Button variant="contained" color="primary"  onClick={() => {
+                                                auth.signOut();
+                                                userLoggedIn(false);
+                                                localStorage.removeItem('userloggedin');
+                                            }
+                                            }>Log out</Button>
+                                        </div> :
+                                    <div>
 
-                                :
-                                <div>
-
-                                    <Button variant="contained" color="primary" onClick={this.login}>Sign In</Button>
-                                    <Button variant="contained" color="primary" onClick={this.registeration}>Sign
-                                        Up</Button>
-                                </div>
+                                        <Button variant="contained" color="primary" onClick={this.login}>Sign In</Button>
+                                        <Button variant="contained" color="primary" onClick={this.registeration}>Sign
+                                            Up</Button>
+                                    </div>
                             }
 
                         </Toolbar>
@@ -118,4 +133,6 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default connect(store => ({
+    loggedIn: store.userReducer.loggedIn,
+}), { userLoggedIn })(Header);
