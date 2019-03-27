@@ -15,57 +15,24 @@ class Register extends React.Component {
         errorMessage: '',
     };
 
+
+
+
     onSubmit = (e) => {
         e.preventDefault();
-
-        let stateClone = {...this.state};
-        let dataToSubmit={};
-
-
-        for(let key in stateClone){
-            if (key!=='cpassword') {
-                dataToSubmit[key] = stateClone[key]
-            }
-        }
-
-        console.table([{
-            email:dataToSubmit.email,
-            name:dataToSubmit.name,
-            surname:dataToSubmit.surname,
-            password: dataToSubmit.password
-        }]);
-
-        // dataToSubmit.name.length >= 3 &&
-        // dataToSubmit.surname.length >= 3 &&
-        // dataToSubmit.email &&
-        // dataToSubmit.password === dataToSubmit.cpassword ?
-
-       
-    //     .catch(err => {
-    //         console.log(err);
-    //         this.setState({
-    //             errorMessage: err.message
-    //         });
-    //     }) :
-    //     this.setState({
-    //     errorMessage: "No enough information"
-    // });
+        
         const {  email, password } = this.state;
-        
-        
-        fireData.ref('users').push(
-            {
-                ...dataToSubmit
-            },
-        )
+        let userData = {
+            name: this.state.name,
+            surname: this.state.surname,
+        }
         auth.createUserWithEmailAndPassword(email, password)
             .then(authUser => {
-                console.log(authUser);
+                fireData.ref('users/' + authUser.user.uid + "/userInfo").set(userData);
             })
           
         this.props.clicked()    
     }
-
     onChange = e => {
         this.setState({
             [e.target.name]: e.target.value,

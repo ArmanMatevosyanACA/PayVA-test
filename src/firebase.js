@@ -1,6 +1,8 @@
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
+import 'firebase/storage';
+
 
 
 
@@ -17,6 +19,7 @@ firebase.initializeApp(config);
 
 const fireData = firebase.database();
 const auth = firebase.auth();
+const storage = firebase.storage();
 
 fireData.ref('users').on('value', (snapshot) => {
     const users = [];
@@ -35,5 +38,6 @@ fireData.ref('users').on('value', (snapshot) => {
 export {
     fireData,
     firebase,
-    auth
+    auth,
+    storage,
 }

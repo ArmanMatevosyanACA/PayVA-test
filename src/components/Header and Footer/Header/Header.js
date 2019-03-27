@@ -7,6 +7,7 @@ import Modal from "../../Modal/Modal";
 import Login from '../../Login and Register/Login/Login';
 import Register from "../../Login and Register/Register/Register";
 import './Header.css';
+import CreateProject from './Create-Project/CreateProject';
 import logo from '../../../images/logo.png';
 
 import {auth} from '../../../firebase';
@@ -56,7 +57,12 @@ class Header extends Component {
             modalContent: <Login canceled={this.closeModal} clicked={this.closeModal}/>
         })
     };
-
+    createproject = () => {
+        this.openModal();
+        this.setState({
+            modalContent: <CreateProject canceled={this.closeModal} clicked={this.closeModal}/>
+        })
+    }
     registeration = () => {
         this.openModal();
         this.setState({
@@ -85,7 +91,7 @@ class Header extends Component {
 
                             {this.state.currentUser ?
                                 <div className={'logged_in'}>
-                                    <Button variant="contained" color="primary" style={{marginRight: '200px'}}>Create the Project </Button>
+                                    <Button variant="contained" color="primary" style={{marginRight: '200px'}} onClick={this.createproject}>Create the Project </Button>
                                     {this.state.currentUser.email}
                                     <Button variant="contained" color="primary"  onClick={() => {
                                         auth.signOut();
