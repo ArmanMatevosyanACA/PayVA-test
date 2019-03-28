@@ -19,28 +19,46 @@ class MainPage extends React.Component {
     }
 
     componentDidUpdate() {
+
         // FAKE SERVER REQUEST RESPONSE IMMITATION
-        setTimeout(() => {
-                const projects = {};
-                
-                if (auth.currentUser) {
-                    let uid = auth.currentUser.uid;
-        
-                    fireData.ref(`users/${uid}/projects`).on('value', (snapshot) => {
-                        const projects = [];
-                        snapshot.forEach((child) => {
-                            projects.push(child.val());
-                        });
-                        
-                        if (!this.state.projects) {
-                            this.setState({ projects }, () => {
-                                console.log(this.state);
-                            });
-                        }
-                    });
-                }
-        }, 1000);
+
+            const items = {};
+
+            const ref = fireData.ref('/users/');
+            ref.limitToFirst(10).once('value').then(snapshot => {
+                const users = snapshot.val();
+                console.log(users)
+    
+                // for (let key in users) {
+                //     for (const itemKey in users[key].items) {
+                //         items[itemKey] = users[key].items[itemKey];
+                //     }
+                // }
+                // this.setState({
+                //     items
+                // })
+                console.log(items);
+            })
     }
+
+    // const projects = {};
+                
+                // if (auth.currentUser) {
+                    // let uid = auth.currentUser.uid;
+        
+                //     fireData.ref(`users/${uid}/projects`).on('value', (snapshot) => {
+                //         const projects = [];
+                //         snapshot.forEach((child) => {
+                //             projects.push(child.val());
+                //         });
+                        
+                //         if (!this.state.projects) {
+                //             this.setState({ projects }, () => {
+                //                 console.log(this.state);
+                //             });
+                //         }
+                //     });
+                // }
     
     render() {
         return (

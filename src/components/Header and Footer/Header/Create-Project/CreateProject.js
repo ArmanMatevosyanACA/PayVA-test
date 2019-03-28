@@ -3,8 +3,7 @@ import {Form, Button} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import {auth, fireData} from '../../../../firebase';
 import FileUploader from "react-firebase-file-uploader";
-// import * as firebase from 'firebase/app';
-
+import * as firebase from 'firebase/app';
 
 
 class CreateProject extends React.Component {
@@ -14,28 +13,6 @@ class CreateProject extends React.Component {
             name: '',
             description: '',
     }
-    handleUploadSuccess(filename) {
-        let uid = auth.currentUser.uid;
-        fireData
-        .ref('users/' + uid + "/projects" + 'images')
-        .child(filename)
-        .getDownloadURL()
-        .then(url => this.setState((prevState) => {
-            return {
-                ...prevState,
-                item: {
-                    ...prevState.item,
-                    image: url
-                }
-            }
-        }));
-}
-
-    onChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
-    };
 
     addItems = (e) => {
  
@@ -44,11 +21,31 @@ class CreateProject extends React.Component {
             projectName: this.state.name,
             projectDescription: this.state.description,
         }
-
+        console.log(this.state);
         let uid = auth.currentUser.uid;
         fireData.ref('users/' + uid + "/projects").push(projectData)
         .then( this.props.canceled);
     }
+
+    handleUploadSuccess(filename) {
+        firebase
+            .storage()
+            .ref("image")
+            .child(filename)
+            .getDownloadURL()
+            .then(url => this.setState({
+                    image: url,                  
+            }))
+    }
+
+
+    onChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    
     render() {
         return (
             <div>
@@ -59,8 +56,8 @@ class CreateProject extends React.Component {
                      accept="image/*"
                      name="avatar"
                      randomizeFilename
-                     storageRef={fireData.ref("images")}
-                     onUploadSuccess={this.handleUploadSuccess}
+                     storageRef={firebase.storage().ref("image")}
+                     onUploadSuccess={this.handleUploadSuccess.bind(this)}
                      key={this.state.uploaderClearing || ""}
                 />
                         <label htmlFor={'name'}>Project Name</label>
