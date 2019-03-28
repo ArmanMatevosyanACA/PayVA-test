@@ -27,39 +27,10 @@ class MainPage extends React.Component {
             const ref = fireData.ref('/users/');
             ref.limitToFirst(10).once('value').then(snapshot => {
                 const users = snapshot.val();
-                console.log(users)
-    
-                // for (let key in users) {
-                //     for (const itemKey in users[key].items) {
-                //         items[itemKey] = users[key].items[itemKey];
-                //     }
-                // }
-                // this.setState({
-                //     items
-                // })
-                console.log(items);
+            
+                console.log(users);
             })
     }
-
-    // const projects = {};
-                
-                // if (auth.currentUser) {
-                    // let uid = auth.currentUser.uid;
-        
-                //     fireData.ref(`users/${uid}/projects`).on('value', (snapshot) => {
-                //         const projects = [];
-                //         snapshot.forEach((child) => {
-                //             projects.push(child.val());
-                //         });
-                        
-                //         if (!this.state.projects) {
-                //             this.setState({ projects }, () => {
-                //                 console.log(this.state);
-                //             });
-                //         }
-                //     });
-                // }
-    
     render() {
         return (
             <div className={'wrapper'}>
