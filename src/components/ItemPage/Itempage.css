@@ -3,6 +3,8 @@
     justify-content: center;
     width: 100%;
     align-content: center;
+    margin-top: 170px;
+    margin-bottom: 200px;
 }
 .img img {
     width: 700px;
@@ -14,6 +16,20 @@
 }
 .text-container {
     width: 40%;
-    margin-top: 180px;
-    font-size: 60px;
+    font-size: 45px;
+    font-family: sans-serif;
+}
+.product-name {
+    font-size: 55px;
+    color: #0351b1;
+    font-weight: bolder;
+}
+.product-author {
+    color: #4183c4;
+    font-weight: 600;
+}
+.product-description {
+    font-size: 25px;
+    margin-top: 50px;
+    color: black;
 }

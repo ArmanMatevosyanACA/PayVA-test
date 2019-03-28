@@ -71,16 +71,15 @@ class MainPage extends React.Component {
                     {
                         projects &&
                         projects.map((project) => {
-                            const { name } = project.userInfo;
+                            const { name, surname } = project.userInfo;
                             const { projectName, projectDescription, image } = project.project;
                             return (
                                 <Link to={`/userId=${project.userId}/projectId=${project.projectId}`} key={project.projectId} >
                                     <div className={'main_container'} >
                                         <img src={image} alt="img" />
                                         <div className={'product_info'}>
-                                            <div>{projectName}</div>
-                                            <div>{name}</div>
-                                            <div>{projectDescription}</div>
+                                            <div className='product-name'>{projectName}</div>
+                                            <div className='author-name'>{name} {surname}</div>
                                         </div>
                                     </div>
                                 </Link>

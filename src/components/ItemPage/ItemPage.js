@@ -12,6 +12,7 @@ class ItemPage extends React.Component {
             const user = snapshot.val();
             const project = {
                 name: user.userInfo.name,
+                surname: user.userInfo.surname,
                 projectName: user.projects[match.params.projectId].projectName,
                 projectDescription: user.projects[match.params.projectId].projectDescription,
                 image: user.projects[match.params.projectId].image,
@@ -32,7 +33,7 @@ class ItemPage extends React.Component {
                             <div className='img'><img src={project.image} alt="" /></div>
                             <div className="text-container">
                                 <div className='product-name'><p>{project.projectName}</p></div>
-                                <div className='product-author'><p>{project.name}</p></div>
+                                <div className='product-author'><p>{project.name} {project.surname}</p></div>
                                 <div className='product-description'><p>{project.projectDescription}</p></div>
                             </div>
                         </Fragment>
