@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-content: center;
+}
+.img img {
+    width: 700px;
+    height: 700px;
+}
+.img {
+    width: 50%;
+    margin-left: 100px;
+}
+.text-container {
+    width: 40%;
+    margin-top: 180px;
+    font-size: 60px;
+}
